@@ -5,20 +5,47 @@ import _ from "lodash";
 
 export default class extends Component {
     state = {
-        selected: null,
+        selected: [],
     };
 
     componentWillMount() {
         //if initialValue passed
-        if (this.props.value) {
-            let selected = _.find(this.props.values, {value: this.props.value});
+        const initialValue = this.props.value;
+        if (initialValue) {
+            let selected = this.state.selected;
+            selected.push(initialValue);
             this.setState({selected: selected})
         }
     }
 
+
+    checkifExists = (value) => {
+
+        const selected = this.state.selected;
+
+        let foundObject = _.find(selected, function (e) {
+            return e === value;
+        });
+
+        if (foundObject) {
+            return foundObject;
+        }
+        return false;
+
+    }
+
     onSelect = (radio) => {
-        this.props.onChange(radio.value);
-        this.setState({selected: radio})
+        let selected = this.state.selected;
+        const value = radio.value;
+
+        if (!this.checkifExists(value)) {
+            selected.push(value);
+        } else {
+            selected = _.pull(selected, value);
+        }
+
+        this.props.onChange(selected);
+        this.setState({selected})
     };
 
 
@@ -44,12 +71,12 @@ export default class extends Component {
                             justifyContent: 'flex-start'
                         }}>
                         <View style={{
-                            backgroundColor: _.isEqual(this.state.selected, radio) ? borderSelectedColor : '#fff',
+                            backgroundColor: this.checkifExists(radio.value) ? borderSelectedColor : '#fff',
                             height: 18,
                             width: 18,
                             borderRadius: 12,
                             borderWidth: 2,
-                            borderColor: _.isEqual(this.state.selected, radio) ? borderSelectedColor : '#ccc',
+                            borderColor: _.has(this.state.selected, radio.value) ? borderSelectedColor : '#ccc',
                             alignItems: 'center',
                             justifyContent: 'center',
                         }}>
@@ -62,6 +89,7 @@ export default class extends Component {
                     </TouchableOpacity>
                 ))}
             </View>
+
         )
     }
 

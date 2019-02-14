@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {View} from 'react-native';
-import Input from './Input';
+import ResolveInput from './Input';
+import InputWrapper from './Input/InputWrapper';
 
 export default class Form extends Component {
     // static propTypes = {
@@ -77,17 +78,33 @@ export default class Form extends Component {
                 return null;
             }
 
+            const [Input, inputProps] = ResolveInput(field.type || 'text');
+
+            if(!Input){
+                return null;
+            }
+
             return (
-                <Input
+                <InputWrapper
                     {...field}
+                    {...inputProps}
+                    key={field.name}
+                    onChange={(value) => this.onFieldChange(field, value)}
                     primaryColor={this.props.primaryColor}
                     type={field.type || 'text'}
                     error={this.getFieldError(field)}
-                    onChange={(value) => this.onFieldChange(field, value)}
-                    value={this.state.data[field.name]}
+                    value={this.state.data[field.name]}>
+                    {props => (
+                        <Input
+                            {...props}
 
-                />
-            );
+
+
+                        />
+                    )}
+
+                </InputWrapper>
+            )
         });
 
         return (
