@@ -21,8 +21,7 @@ export default class extends Component {
         this.props.onChange(radio.value);
         this.setState({selected: radio})
     };
-
-
+    
     render() {
         let borderSelectedColor = "#000";
         if (this.props.primaryColor) {

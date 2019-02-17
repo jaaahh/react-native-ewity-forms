@@ -8,7 +8,6 @@ import {
     ActivityIndicator,
 } from 'react-native';
 import _ from "lodash";
-const {width, height, scale} = Dimensions.get("window");
 export default class InputWrapper extends Component {
     static propTypes = {
         label: 'string|null',
@@ -102,7 +101,7 @@ export default class InputWrapper extends Component {
     }
 
     onChange = (value) => {
-        console.log("props onchnage")
+
         if (!this.props.transformer) {
             console.log("calling transformer")
             this.props.onChange(value);
@@ -139,6 +138,7 @@ export default class InputWrapper extends Component {
         this.animateSelected(focus);
         this.setState({focus});
 
+
     }
 
     renderChildren() {
@@ -155,9 +155,6 @@ export default class InputWrapper extends Component {
         return (
             <View>
                 {children(childrenProps)}
-                {
-                    error ? <Text style={{paddingTop: 5, color: 'red', textAlign: 'left'}}>{error}</Text> : null
-                }
             </View>
         )
     }
@@ -170,9 +167,8 @@ export default class InputWrapper extends Component {
     render() {
 
 
-        const {label, required, error} = this.props;
+        let {label, required, error} = this.props;
         let color = '#eee';
-
         let focus = this.state.focus;
 
         if (error) {
@@ -188,24 +184,24 @@ export default class InputWrapper extends Component {
                 backgroundColor: focus ? '#fff' : 'transparent',
                 width: null,
                 borderRadius: 0,
-                paddingBottom: 5,
-                paddingTop:10,
-                marginTop: 10,
+                marginBottom:30,
 
             }}>
-
                 <Text style={{
                     fontWeight: '200',
                     color: '#999',
-                    paddingBottom:5,
                 }}>
                     {label}
                     {required ? <Text style={{color: 'red'}}>*</Text> : ""}</Text>
-                {this.state.loading && !this.props.ignoreLoading ? this.renderLoading() : this.renderChildren()}
+                {this.state.loading && !this.props.ignoreLoading ? this.renderLoading() : this.renderChildren(this.props)}
+
+                {
+                    error ? <Text style={{paddingTop: 5, color: 'red', textAlign: 'left', fontSize:12}}>{error}</Text> : null
+                }
 
                 {!this.props.hideLine && (
-                    <View style={{height:1,  width:null, backgroundColor:color, marginTop:5,}}>
-                        <Animated.View style={{height:1, position:'absolute',  width: this.width, backgroundColor:this.props.primaryColor ? this.props.primaryColor : '#005BAA', }}>
+                    <View style={{height:1.5,  width:null, backgroundColor:color, marginTop:5,}}>
+                        <Animated.View style={{height:1.5, position:'absolute',  width: this.width, backgroundColor:this.props.primaryColor ? this.props.primaryColor : '#005BAA', }}>
                         </Animated.View>
 
                     </View>
