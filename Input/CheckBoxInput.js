@@ -1,12 +1,14 @@
 import React, {Component} from 'react';
-import {Text, TextInput, TouchableOpacity, View} from 'react-native';
+import {Text, TextInput, TouchableOpacity, View, Animated, Easing} from 'react-native';
 import _ from "lodash";
+import Item from "./Components/Item";
 
 
 export default class extends Component {
     state = {
         selected: [],
     };
+    scaleValue =  new Animated.Value(0.01);
 
     componentWillMount() {
         //if initialValue passed
@@ -40,7 +42,20 @@ export default class extends Component {
 
         if (!this.checkifExists(value)) {
             selected.push(value);
+            Animated.timing(this.scaleValue, {
+                toValue: 1,
+                duration: 225,
+                easing: Easing.bezier(0.0, 0.0, 0.2, 1),
+            }).start();
+
+
+
         } else {
+            Animated.timing(this.scaleValue, {
+                toValue: 0,
+            }).start(() => {
+
+            });
             selected = _.pull(selected, value);
         }
 
@@ -55,42 +70,23 @@ export default class extends Component {
             borderSelectedColor = this.props.primaryColor;
         }
 
-        return (
-            <View style={{flexDirection: 'row'}}>
-                {this.props.values.map((radio, i) => (
-                    <TouchableOpacity
-                        onPress={() => this.onSelect(radio)}
-                        style={{
-                            backgroundColor: 'transparent',
-                            paddingLeft: 0,
-                            paddingTop: 10,
-                            paddingBottom: 5,
-                            flexDirection: 'row',
-                            flex: 1,
-                            alignItems: 'center',
-                            justifyContent: 'flex-start'
-                        }}>
-                        <View style={{
-                            backgroundColor: this.checkifExists(radio.value) ? borderSelectedColor : '#fff',
-                            height: 18,
-                            width: 18,
-                            borderRadius: 0,
-                            borderWidth: 2,
-                            borderColor: _.has(this.state.selected, radio.value) ? borderSelectedColor : '#ddd',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                        }}>
-                        </View>
-                        <Text style={{
-                            paddingLeft: 5,
-                            paddingRight: 5,
-                            color: _.isEqual(this.state.selected, radio) ? '#000' : '#ccc'
-                        }}>{radio.label}</Text>
-                    </TouchableOpacity>
-                ))}
-            </View>
+        let values = this.props.values;
 
+
+        return (
+            <View>
+                {values.map((radio, i) => {
+                    const selected = this.checkifExists(radio.value);
+                    return (
+                     <Item item={radio} selected={selected} onPress={(item) => this.onSelect(item)} primaryColor={borderSelectedColor} />
+                    )
+                })
+                }
+
+
+
+            </View>
         )
-    }
+    };
 
 }

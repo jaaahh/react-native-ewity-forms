@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {Text, TextInput, StyleSheet, View, TouchableOpacity} from 'react-native';
 import AutoComplete from './AutoComplete';
-import InputWrapper from './InputWrapper';
 
 export default class extends Component {
     constructor(props) {

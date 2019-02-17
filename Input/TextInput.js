@@ -3,10 +3,6 @@ import {TextInput} from 'react-native';
 
 export default class extends Component {
 
-    componentDidMount() {
-    console.log("mouting text")
-    }
-
     render() {
         return (
             <TextInput {...this.props} style={{paddingBottom: 6, paddingTop: 6,}}

@@ -3,10 +3,12 @@ import {
     Text,
     View,
     Animated,
-    ActivityIndicator
+    Dimensions,
+    StyleSheet,
+    ActivityIndicator,
 } from 'react-native';
 import _ from "lodash";
-
+const {width, height, scale} = Dimensions.get("window");
 export default class InputWrapper extends Component {
     static propTypes = {
         label: 'string|null',
@@ -18,11 +20,26 @@ export default class InputWrapper extends Component {
         error: null,
     };
 
+    width = new Animated.Value(0);
+    constructor(props){
+        super(props);
+        this.state = {
+            loading: false,
+            values: this.props.values,
 
-    state = {
-        loading: false,
-        values: this.props.values,
-    };
+        };
+    }
+
+    animateSelected = (selected) => {
+        Animated.spring(
+            // Animate value over time
+            this.width, // The value to drive
+            {
+                toValue: selected ? this.state.layoutWidth : 0, // Animate to final value of 1
+                bounciness:10
+            },
+        ).start(); // Start the animation
+    }
 
 
     componentDidMount() {
@@ -118,6 +135,12 @@ export default class InputWrapper extends Component {
         )
     }
 
+    onFocus(focus){
+        this.animateSelected(focus);
+        this.setState({focus});
+
+    }
+
     renderChildren() {
         const {error, onChange, label, required, name, children, ...rest} = this.props;
 
@@ -126,7 +149,7 @@ export default class InputWrapper extends Component {
             onChange: this.onChange,
             values: this.state.values,
             loading: this.state.loading,
-            onFocus: (focus) => this.setState({focus})
+            onFocus: (focus) => this.onFocus(focus)
         };
 
         return (
@@ -139,16 +162,19 @@ export default class InputWrapper extends Component {
         )
     }
 
+    onLayout = (event) => {
+        var {x, y, width, height} = event.nativeEvent.layout;
+        this.setState({layoutWidth: width})
+    }
 
     render() {
+
+
         const {label, required, error} = this.props;
         let color = '#eee';
 
         let focus = this.state.focus;
 
-        if (focus) {
-            color = this.props.primaryColor ? this.props.primaryColor : '#005BAA';
-        }
         if (error) {
             color = 'red';
         }
@@ -158,22 +184,33 @@ export default class InputWrapper extends Component {
         }
 
         return (
-            <View style={{
+            <View onLayout={this.onLayout}  ref="welcome" style={{
                 backgroundColor: focus ? '#fff' : 'transparent',
-                borderColor: color,
-                borderWidth: 1,
                 width: null,
-                borderRadius: 5,
-                padding: 10,
+                borderRadius: 0,
+                paddingBottom: 5,
+                paddingTop:10,
                 marginTop: 10,
+
             }}>
+
                 <Text style={{
-                    fontWeight: '400',
+                    fontWeight: '200',
                     color: '#999',
+                    paddingBottom:5,
                 }}>
                     {label}
                     {required ? <Text style={{color: 'red'}}>*</Text> : ""}</Text>
                 {this.state.loading && !this.props.ignoreLoading ? this.renderLoading() : this.renderChildren()}
+
+                {!this.props.hideLine && (
+                    <View style={{height:1,  width:null, backgroundColor:color, marginTop:5,}}>
+                        <Animated.View style={{height:1, position:'absolute',  width: this.width, backgroundColor:this.props.primaryColor ? this.props.primaryColor : '#005BAA', }}>
+                        </Animated.View>
+
+                    </View>
+                )}
+
             </View>
         )
     }

@@ -7,7 +7,6 @@ export default class extends Component {
         selected: this.props.value,
     };
 
-
     render() {
         const props = this.props;
 

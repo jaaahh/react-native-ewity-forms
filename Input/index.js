@@ -13,7 +13,7 @@ export default function (type) {
         return [TextInput, {}];
     }
     if (type === 'radio') {
-        return [RadioInput, {}]
+        return [RadioInput, {hideLine: true}]
     }
 
     if (type === 'select') {
@@ -29,7 +29,7 @@ export default function (type) {
     }
 
     if (type === 'checkbox') {
-        return [CheckBoxInput, {}];
+        return [CheckBoxInput, {hideLine: true}];
     }
 
     if (type === 'autocomplete') {

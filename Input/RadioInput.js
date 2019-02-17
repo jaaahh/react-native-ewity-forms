@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Text, TextInput, TouchableOpacity, View} from 'react-native';
 import _ from "lodash";
+import Item from "./Components/Item";
 
 
 export default class extends Component {
@@ -29,38 +30,13 @@ export default class extends Component {
         }
 
         return (
-            <View style={{flexDirection: 'row'}}>
-                {this.props.values.map((radio, i) => (
-                    <TouchableOpacity
-                        onPress={() => this.onSelect(radio)}
-                        style={{
-                            backgroundColor: 'transparent',
-                            paddingLeft: 0,
-                            paddingTop: 10,
-                            paddingBottom: 5,
-                            flexDirection: 'row',
-                            flex: 1,
-                            alignItems: 'center',
-                            justifyContent: 'flex-start'
-                        }}>
-                        <View style={{
-                            backgroundColor: _.isEqual(this.state.selected, radio) ? borderSelectedColor : '#fff',
-                            height: 18,
-                            width: 18,
-                            borderRadius: 12,
-                            borderWidth: 2,
-                            borderColor: _.isEqual(this.state.selected, radio) ? borderSelectedColor : '#ccc',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                        }}>
-                        </View>
-                        <Text style={{
-                            paddingLeft: 5,
-                            paddingRight: 5,
-                            color: _.isEqual(this.state.selected, radio) ? '#000' : '#ccc'
-                        }}>{radio.label}</Text>
-                    </TouchableOpacity>
-                ))}
+            <View>
+                {this.props.values.map((radio, i) => {
+                    const selected = _.isEqual(this.state.selected, radio);
+                    return (
+                        <Item selected={selected} item={radio} onPress={this.onSelect} primaryColor={borderSelectedColor}/>
+                    )
+                })}
             </View>
         )
     }
