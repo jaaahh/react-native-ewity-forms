@@ -153,6 +153,9 @@ export default class InputWrapper extends Component {
             color = 'red';
         }
 
+        if(this.props.ignoreWrapper){
+            return this.renderChildren();
+        }
 
         return (
             <View style={{

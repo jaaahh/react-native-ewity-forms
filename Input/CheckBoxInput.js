@@ -74,9 +74,9 @@ export default class extends Component {
                             backgroundColor: this.checkifExists(radio.value) ? borderSelectedColor : '#fff',
                             height: 18,
                             width: 18,
-                            borderRadius: 12,
+                            borderRadius: 0,
                             borderWidth: 2,
-                            borderColor: _.has(this.state.selected, radio.value) ? borderSelectedColor : '#ccc',
+                            borderColor: _.has(this.state.selected, radio.value) ? borderSelectedColor : '#ddd',
                             alignItems: 'center',
                             justifyContent: 'center',
                         }}>

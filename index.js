@@ -97,9 +97,6 @@ export default class Form extends Component {
                     {props => (
                         <Input
                             {...props}
-
-
-
                         />
                     )}
 

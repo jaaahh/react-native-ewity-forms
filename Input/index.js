@@ -37,7 +37,7 @@ export default function (type) {
     }
 
     if (type === 'header') {
-        return [Header, {}];
+        return [Header, {ignoreWrapper: true}];
     }
 
     console.error('Invalid input type ' + type);
