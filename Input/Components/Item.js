@@ -5,19 +5,20 @@ export default class extends Component {
     state = {
         selected: [],
     };
-    scaleValue = new Animated.Value(this.props.selected ? 1.1 : 0);
+    scaleValue = new Animated.Value(this.props.selected ? 1 : 0);
 
 
     componentDidMount() {
 
-        this.animate()
+        // this.animate()
     }
 
 
     componentDidUpdate(prevProps, prevState, snapshot) {
 
-        this.animate()
-
+        if(this.props.selected !== prevProps.selected){
+            this.animate()
+        }
     }
 
     animate = () => {
@@ -25,27 +26,21 @@ export default class extends Component {
 
         if (selected) {
             Animated.spring(this.scaleValue, {
-                toValue: 1.1,
-            }).start(() => {
-
-            });
+                toValue: 1,
+                useNativeDriver: true,
+            }).start();
 
         } else {
             Animated.spring(this.scaleValue, {
                 toValue: 0,
-            }).start(() => {
-
-            });
+                useNativeDriver: true,
+            }).start();
 
         }
     }
 
     onPress = () => {
-
-
         this.props.onPress(this.props.item);
-
-
     };
 
 
@@ -76,12 +71,13 @@ export default class extends Component {
                         height: 20,
                         width: 20,
                         borderRadius: 12,
-                        borderWidth: 1,
+                        borderWidth: selected ? 0 : 1,
                         borderColor: '#ddd',
                     }}>
                         <Animated.View style={{
                             position: 'absolute',
                             transform: [{scale: this.scaleValue}],
+                            opacity: this.scaleValue,
                             backgroundColor: borderSelectedColor,
                             height: 20,
                             width: 20,

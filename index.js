@@ -21,7 +21,13 @@ export default class Form extends Component {
             if(!field){
                 return;
             }
-            data[field.name] = field.initialValue || initial[field.name] || null;
+
+            if(field.initialValue || typeof field.initialValue === "number"){
+                data[field.name] =  field.initialValue;
+            }
+            if(initial[field.name]){
+                data[field.name] = initial[field.name];
+            }
         });
 
         this.state = {data};

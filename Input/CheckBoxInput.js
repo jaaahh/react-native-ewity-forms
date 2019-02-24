@@ -70,15 +70,15 @@ export default class extends Component {
             borderSelectedColor = this.props.primaryColor;
         }
 
-        let values = this.props.values;
+        let values = this.props.values || [];
 
 
         return (
             <View>
-                {values.map((radio, i) => {
+                {values.length > 0 && values.map((radio, i) => {
                     const selected = this.checkifExists(radio.value);
                     return (
-                     <Item item={radio} selected={selected} onPress={(item) => this.onSelect(item)} primaryColor={borderSelectedColor} />
+                     <Item key={i} item={radio} selected={selected} onPress={(item) => this.onSelect(item)} primaryColor={borderSelectedColor} />
                     )
                 })
                 }

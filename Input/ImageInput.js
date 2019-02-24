@@ -21,8 +21,6 @@ export default class extends Component {
         };
 
         ImagePicker.showImagePicker(options, (response) => {
-            console.log('Response = ', response);
-
             if (response.didCancel) {
                 this.props.onFocus(false);
                 console.log('User cancelled photo picker');

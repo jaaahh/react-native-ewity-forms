@@ -8,6 +8,7 @@ import {
     ActivityIndicator,
 } from 'react-native';
 import _ from "lodash";
+
 export default class InputWrapper extends Component {
     static propTypes = {
         label: 'string|null',
@@ -20,7 +21,8 @@ export default class InputWrapper extends Component {
     };
 
     width = new Animated.Value(0);
-    constructor(props){
+
+    constructor(props) {
         super(props);
         this.state = {
             loading: false,
@@ -35,7 +37,7 @@ export default class InputWrapper extends Component {
             this.width, // The value to drive
             {
                 toValue: selected ? this.state.layoutWidth : 0, // Animate to final value of 1
-                bounciness:10
+                bounciness: 10
             },
         ).start(); // Start the animation
     }
@@ -103,7 +105,6 @@ export default class InputWrapper extends Component {
     onChange = (value) => {
 
         if (!this.props.transformer) {
-            console.log("calling transformer")
             this.props.onChange(value);
             return
         }
@@ -134,7 +135,7 @@ export default class InputWrapper extends Component {
         )
     }
 
-    onFocus(focus){
+    onFocus(focus) {
         this.animateSelected(focus);
         this.setState({focus});
 
@@ -164,6 +165,20 @@ export default class InputWrapper extends Component {
         this.setState({layoutWidth: width})
     }
 
+    renderLabel = (label) => {
+        if(this.props.label){
+            return (
+                <View>
+                    <Text style={{
+                        fontWeight: '200',
+                        color: '#999',
+                    }}>{label}</Text>
+
+                </View>
+            )
+        }
+    }
+
     render() {
 
 
@@ -175,33 +190,35 @@ export default class InputWrapper extends Component {
             color = 'red';
         }
 
-        if(this.props.ignoreWrapper){
+        if (this.props.ignoreWrapper) {
             return this.renderChildren();
         }
 
         return (
-            <View onLayout={this.onLayout}  ref="welcome" style={{
+            <View onLayout={this.onLayout} ref="welcome" style={{
                 backgroundColor: focus ? '#fff' : 'transparent',
                 width: null,
                 borderRadius: 0,
-                marginBottom:30,
+                marginTop: 15,
+                marginBottom: 15,
 
             }}>
-                <Text style={{
-                    fontWeight: '200',
-                    color: '#999',
-                }}>
-                    {label}
-                    {required ? <Text style={{color: 'red'}}>*</Text> : ""}</Text>
+                {this.renderLabel(this.props.label)}
                 {this.state.loading && !this.props.ignoreLoading ? this.renderLoading() : this.renderChildren(this.props)}
 
                 {
-                    error ? <Text style={{paddingTop: 5, color: 'red', textAlign: 'left', fontSize:12}}>{error}</Text> : null
+                    error ? <Text
+                        style={{paddingTop: 5, color: 'red', textAlign: 'left', fontSize: 12}}>{error}</Text>:null
                 }
 
                 {!this.props.hideLine && (
-                    <View style={{height:1.5,  width:null, backgroundColor:color, marginTop:5,}}>
-                        <Animated.View style={{height:1.5, position:'absolute',  width: this.width, backgroundColor:this.props.primaryColor ? this.props.primaryColor : '#005BAA', }}>
+                    <View style={{height: 1.5, width: null, backgroundColor: color, marginTop: 5,}}>
+                        <Animated.View style={{
+                            height: 1.5,
+                            position: 'absolute',
+                            width: this.width,
+                            backgroundColor: this.props.primaryColor ? this.props.primaryColor : '#005BAA',
+                        }}>
                         </Animated.View>
 
                     </View>

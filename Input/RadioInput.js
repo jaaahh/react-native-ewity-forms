@@ -11,7 +11,7 @@ export default class extends Component {
 
     componentWillMount() {
         //if initialValue passed
-        if (this.props.value) {
+        if (this.props.value !== null) {
             let selected = _.find(this.props.values, {value: this.props.value});
             this.setState({selected: selected})
         }
@@ -21,19 +21,21 @@ export default class extends Component {
         this.props.onChange(radio.value);
         this.setState({selected: radio})
     };
-    
+
     render() {
         let borderSelectedColor = "#000";
         if (this.props.primaryColor) {
             borderSelectedColor = this.props.primaryColor;
         }
 
+        const values = this.props.values || [];
+
         return (
             <View>
-                {this.props.values.map((radio, i) => {
+                {values.length > 0 && values.map((radio, i) => {
                     const selected = _.isEqual(this.state.selected, radio);
                     return (
-                        <Item selected={selected} item={radio} onPress={this.onSelect} primaryColor={borderSelectedColor}/>
+                        <Item key={i} selected={selected} item={radio} onPress={this.onSelect} primaryColor={borderSelectedColor}/>
                     )
                 })}
             </View>
@@ -41,3 +43,4 @@ export default class extends Component {
     }
 
 }
+

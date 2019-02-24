@@ -73,7 +73,7 @@ export default class extends Component {
                                           </Text>
                                       </View>
                                       <View style={{flex: 1, alignItems: 'flex-end', justifyContent: 'center'}}>
-                                          <Text style={{fontSize: 15, color: '#ccc'}}>→</Text>
+                                          <Text style={{fontSize: 15, color: this.props.primaryColor || '#ccc'}}>→</Text>
                                       </View>
                                   </View>
                               </TouchableOpacity>
