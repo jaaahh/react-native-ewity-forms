@@ -8,7 +8,7 @@
                                         type: 'select',
                                         placeholder: "Please select Country",
                                         initialValue: "mv",
-                                        api: AppService.countries,
+                                        values: () => AppService.countries,
                                         //values: [{label: "Maldives", value: "mv"}]
                                         label: 'Country',
                                         onChange: this.resetUuid,
