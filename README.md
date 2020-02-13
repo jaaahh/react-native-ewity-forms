@@ -1,4 +1,4 @@
-# React Native Docker
+# React Native Ewity Forms
 React Native Ewity Forms is a form builder to easily build forms using a array.
   - Helps you to build forms easily
   - Consistany across all your screens
